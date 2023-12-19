@@ -11,16 +11,27 @@ public function __construct($username,$email,$password){
     $this->email = $email;
     $this->password = password_hash($password,PASSWORD_DEFAULT);
 
-    $global $conn;
-    $sql = "INSERT INTO users (username,email,password) VALUES (:username,:email,:password)";
+    global $conn;
+  
+    $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':username',$this->username, PDO::PARAM_STR);
-    $stmt->bindParam(':email',$this->email, PDO::PARAM_STR);
-    $stmt->bindParam(':password',$this->password, PDO::PARAM_STR);
+   $stmt->bind_param("sss", $this->username, $this->email, $this->password);
 
     $stmt->execute();
-    $conn = null;
-
     }
+
+    public static function isEmailFree($email){
+        global $conn;
+       
+        $sql = "SELECT email FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s',$email);
+        
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rowCount = $result->num_rows;
+        return $rowCount == 0;
+    } 
+    
 }
 ?>
