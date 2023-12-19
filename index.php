@@ -12,7 +12,7 @@ if(isset($_SESSION['username'])){
     echo 'Welcome '.$_SESSION['username'];
     echo '<br><a href="logout.php">Logout</a>';
 }else{
-    echo '<a href="/view/login.php">Login or register here!</a>';
+    echo '<a href="/view/loginView.php">Login or register here!</a>';
 }
 ?>  
 </body>

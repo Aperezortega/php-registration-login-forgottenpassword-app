@@ -15,6 +15,7 @@
             <input type="submit" value="Login" name="login">
         </form>
         <a href="register.php">Dont have a username? Register here</a>
+        <a href="resetPassword.php">Forgotten Password?</a>
     </div>
 </body>
 </html>
