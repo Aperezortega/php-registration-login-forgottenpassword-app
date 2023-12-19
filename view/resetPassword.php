@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <form action="../controller/resetPassword.php" method="post">
+        <form action="../controller/resetPasswordController.php" method="post">
             <input type="email" name="email" placeholder="Enter your email">
             <input type="submit" value="Reset password">
         </form>

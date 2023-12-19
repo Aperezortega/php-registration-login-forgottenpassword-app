@@ -2,20 +2,20 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../PHPMailer-master/src/Exception.php';
-require '../PHPMailer-master/src/PHPMailer.php';
-require '../PHPMailer-master/src/SMTP.php';
-public static function sendResetEmail($email, $token){
-    $credentialsFile = fopen("../credentials.txt", "r") or die("No se pudo abrir el archivo");
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
+function sendResetEmail($email, $token){
+    $credentialsFile = '../credentials.txt';
     $credentialsData = file($credentialsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    fclose($archivosCredenciales);
+    
 
     if(count($credentialsData) == 2){
         $emailCredential = $credentialsData[0];
         $emailPasswordCredential = $credentialsData[1];
         $mail = new PHPMailer(true);
         try {
-            $mail->isSMTP();
+        $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = $emailCredential;
@@ -32,6 +32,8 @@ public static function sendResetEmail($email, $token){
         $mail->Body = $message;
 
         $mail->send();
+        }catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
         
 
