@@ -95,3 +95,18 @@ Proyecto
 `-- index.php
 
 ~~~
+
+### FUNCTIONALITY:
+
+Upon landing in index.php we find a  very simple view with a block of code that points you to the login/register view or if you are logged in already  displays your username and a link to logout.
+Once we get to login.php we will be able to perform one of these operations:
+
+* Register user
+* Login user
+* Reset password
+
+#### USER REGISTRATION:
+
+
+
+ 
