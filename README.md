@@ -65,30 +65,33 @@ What has worked for me is just going into [https://myaccount.google.com/](https:
 ### STRUCTURE:
 
 The project follows a simple MVC pattern directory structure:
-proyect
-├── assets
-│ ├── css
-│ │ └── style.css
-│ └── js
-│ ├── index.js
-│ ├── login.js
-│ └── register.js
-├── controller
-│ ├── createNewPasswordController.php
-│ ├── loginController.php
-│ ├── logoutController.php
-│ ├── registerController.php
-│ └── requestNewPasswordController.php
-├── model
-│ ├── db.php
-│ ├── Login.php
-│ └── User.php
-├── service
-│ ├── PHPMailer-master
-│ └── resetEmailService.php
-├── view
-│ ├── createNewPassword.php
-│ ├── loginView.php
-│ ├── register.php
-│ └── requestNewPassword.php
-└── index.php
+~~~
+Proyecto
+|-- assets
+|   |-- css
+|   |   `-- style.css
+|   `-- js
+|       |-- index.js
+|       |-- login.js
+|       `-- register.js
+|-- controller
+|   |-- createNewPasswordController.php
+|   |-- loginController.php
+|   |-- logoutController.php
+|   |-- registerController.php
+|   `-- requestNewPasswordController.php
+|-- model
+|   |-- db.php
+|   |-- Login.php
+|   `-- User.php
+|-- service
+|   |-- PHPMailer-master
+|   `-- resetEmailService.php
+|-- view
+|   |-- createNewPassword.php
+|   |-- loginView.php
+|   |-- register.php
+|   `-- requestNewPassword.php
+`-- index.php
+
+~~~
