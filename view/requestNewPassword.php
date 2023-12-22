@@ -13,7 +13,7 @@
                 <div class="card m-4">
                     <div class="card-body">
                         <h3 class="text-center mt-4">Request Email with password reset link</h3>
-                        <form action="../controller/resetPasswordController.php" method="post">
+                        <form action="../controller/requestNewPasswordController.php" method="post">
                             <input class="form-control mb-2 text-center" type="email" name="email" placeholder="Enter your email">
                             <input class="btn btn-primary mb-2" type="submit" value="Request">
                         </form>

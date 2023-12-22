@@ -24,7 +24,7 @@ function sendResetEmail($email, $token){
         $mail->Port = 587;
 
         $subject = 'Reset password';
-        $message = 'Click on the link to reset your password: http://localhost:8080/PHP-Login-System/view/resetPassword.php?token='.$token;
+        $message = 'Click on the link to reset your password: http://localhost/view/createNewPassword.php?token='.$token;
         
         $mail->setFrom($emailCredential, 'PHP Login System');
         $mail->addAddress($email);

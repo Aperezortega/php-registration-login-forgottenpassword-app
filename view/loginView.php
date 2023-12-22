@@ -17,7 +17,7 @@
                     <input class="form-control mb-3 text-center" type="password" name="password" id="password" placeholder="Password">
                     <a href="register.php">Register here</a>
                     <input class="btn btn-primary m-4" type="submit" value="Login" name="login">
-                    <a href="resetPassword.php">Reset Password</a> 
+                    <a href="requestNewPassword.php">Reset Password</a> 
                     </form>   
                 </div>
             </div>

@@ -15,7 +15,7 @@ public function __construct($username, $email, $password){
   
     $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-   $stmt->bind_param("sss", $this->username, $this->email, $this->password);
+    $stmt->bind_param("sss", $this->username, $this->email, $this->password);
 
     $stmt->execute();
     }
@@ -49,9 +49,18 @@ public function __construct($username, $email, $password){
         $stmt->bind_param('s',$token);
         $stmt->execute();
         $result = $stmt->get_result();
+        $id_user = $result->fetch_assoc()['id_user'];
+        $_SESSION['id_user'] = $id_user;
         $rowCount = $result->num_rows;
         return $rowCount == 1;
     }
     
+    public static function updatePassword($id_user, $password){
+        global $conn;
+        $sql = "UPDATE users SET password = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('si',password_hash($password,PASSWORD_DEFAULT), $id_user);
+        $stmt->execute();
+    }
 }
 ?>
