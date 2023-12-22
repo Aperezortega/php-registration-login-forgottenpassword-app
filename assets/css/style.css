@@ -1,0 +1,21 @@
+@media (max-width: 768px) {
+    a {
+        font-size: 10px;
+    }
+
+    .btn {
+        
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 280px) {
+
+    .btn {
+       width: 70%;
+         font-size: 15px;
+    }
+    a {
+        font-size: 15px;
+    }
+}
