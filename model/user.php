@@ -41,6 +41,17 @@ public function __construct($username, $email, $password){
         $stmt->execute();
 
     }
+
+    public static function isTokenValid($token){
+        global $conn;
+        $sql = "SELECT id_user FROM passwords_reset WHERE token = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s',$token);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rowCount = $result->num_rows;
+        return $rowCount == 1;
+    }
     
 }
 ?>

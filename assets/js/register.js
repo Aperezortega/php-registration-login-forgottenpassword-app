@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    //PASSWORD VALIDATION
     const form = document.querySelector('form');
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
+    const urlParams = new URLSearchParams(window.location.search).toString();
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -14,5 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     });
 
+    //EMAIL VALIDATION
+    
+    console.log(urlParams);
+    if(urlParams==='register=failed&error=emailTaken'){
+        alert('Registration Failed. Email already registered');
+    }
 
 });

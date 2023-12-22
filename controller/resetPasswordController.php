@@ -7,6 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $token = bin2hex(random_bytes(8));
     sendResetEmail($email, $token);
     User::insertResetTokenIntoDb($email, $token);
+    header('Location: ../index.php?resetEmail=success');
  
 }
 
