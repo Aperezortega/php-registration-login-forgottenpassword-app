@@ -331,9 +331,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 The first thing to do here is to download [PHPMailer](https://github.com/PHPMailer/PHPMailer) library.
 
 After this, lets set the email service. In this case, the email service has only 1 functionality which is to send a password reset link consisting of an url with  a token parameter, for this reason the code for the setting up and sending the email is all in one single file.
-__
-### The service consists of a function sendResetEmail($email, $token) being $email THE EMAIL OF THE REGISTERED USER WANTING TO CHANGE HIS/HER PASSWORD Not the 
-__
+___
+
+
+#### The service consists of a function sendResetEmail($email, $token) being $email THE EMAIL OF THE REGISTERED USER WANTING TO CHANGE HIS/HER PASSWORD Not the email address that sends the password reset link!!
+
+___
+
 Code for resetEmailService.php
 ~~~ 
 <?php
