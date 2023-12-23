@@ -389,7 +389,8 @@ function sendResetEmail($email, $token){
 Back to password reset. It consists of a 2 step process:
 * Requesting password reset link.
 * Creating a new password.
- 
+ ___
+**REQUESTING PASSWORD RESET LINK**
 For the first step  we  have a form on requestNewPassword.php with an email input which is then posted to requestNewPasswordController.php. On the controller the email validated using the function User::isEmailFree($email) if true, it means the email is not registered and the process stops here. We get a redirection to the previous view with an error alert.
 
 If the email is not free, that means it is registered in the database and we can move forward with the process.  This email is then being send the url link with the token, and the token is stored in the database for future use.
@@ -414,4 +415,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ~~~
 ___
 
-For the Last step, 
+**CREATING A NEW PASSWORD**
+For the Last step, we should have received an email with the following message: 'Click on the link to reset your password: http://localhost/view/createNewPassword.php?token='.$token;
+The file createNewPassword.php  consists o a php script which validates the token, if the token is not valid it redirects us to index.php.
+
+~~~
+<?php
+session_start();
+require_once '../model/User.php';
+$token = $_GET['token']; //this gets the parameter 'token' from URL
+
+if(!(User::isTokenValid($token))){
+    header('Location: ../index.php');
+    exit();
+}
+?>
+~~~
+On the other hand, if we do have a valid token  we find a form with password, confirmPassword fields and a submit button. Like register.php the password is validated using javascript and the code from register.js is used here again. Not having to create a separate js file for it.  
+
+
+Once submitted, createNewPasswordController.php will then make use of User::updatePassword($id_user, $password) to update the password.
+
+Code here:
+~~~
+<?php
+require_once '../model/User.php';
+session_start();
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $id_user = $_SESSION['id_user'];
+    $password = $_POST['password'];
+    User::updatePassword($id_user, $password);
+    header('Location: ../view/loginView.php?passwordChanged=1');
+}else{
+    echo 'Something went wrong';
+}
+?>
+~~~
