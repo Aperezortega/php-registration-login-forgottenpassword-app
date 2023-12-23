@@ -117,8 +117,54 @@ $conn->set_charset("utf8");
 ~~~
 
 Login.php:
-A class used to login into the website. It has 2 attributes ($username,$password), and 2 methods, a public one called login() and a private  called verifyPassword, which is called also when loggin in. 
+A class used to login into the website. It has 2 attributes ($username,$password), and 2 methods, a public one called login() and a private  called verifyPassword, which is called also when loggin in.  
+The method login() does a SQL query and gets the associated password to $this->username  and then it is passed as a parameter for verifyPassword. verifyPassword compares the user associated password from the database and the password introduced by the person when loggin in.
+Apart of this, only 2 things to point out:
+* queries are prepared to avoid sql injections.
+* passwords are hashed
 
+Code here:
+~~~
+<?php
+require_once '../model/db.php';
+Class Login{
+
+    private $username;
+    private $password;
+
+    public function __construct($username, $password){
+        $this->username = $username;
+        $this->password = $password;
+    }
+
+    public function login(){
+        $username = $this->username;
+        $password = $this->password;
+        global $conn;
+        $sql = "SELECT password FROM users WHERE username = ?"; 
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s',$username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+            $row = $result->fetch_assoc();
+            $hash = $row['password'];
+            if($this->verifyPassword($password, $hash)){
+            return true;
+             }else{
+            return false;
+    
+            }
+        }
+}
+
+    private function verifyPassword($password, $hash){
+        return password_verify($password, $hash);
+    }
+}
+?>
+~~~
 
 
 ### FUNCTIONALITY:
