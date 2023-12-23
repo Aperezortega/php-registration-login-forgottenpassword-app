@@ -390,7 +390,9 @@ Back to password reset. It consists of a 2 step process:
 * Requesting password reset link.
 * Creating a new password.
  
-For the first step  we  have a form on requestNewPassword.php with an email input which is then posted to requestNewPasswordController.php:
+For the first step  we  have a form on requestNewPassword.php with an email input which is then posted to requestNewPasswordController.php. On the controller the email validated using the function User::isEmailFree($email) if true, it means the email is not registered and the process stops here. We get a redirection to the previous view with an error alert.
+
+If the email is not free, that means it is registered in the database and we can move forward with the process.  This email is then being send the url link with the token, and the token is stored in the database for future use.
 
 ~~~
 <?php
@@ -408,6 +410,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     header('Location: ../index.php?resetEmail=success');
  
 }
-
 ?>
 ~~~
+___
+
+For the Last step, 
