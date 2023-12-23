@@ -12,8 +12,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }else{
         header('Location: ../view/loginView.php?login=failed');
     }
-    
 }
-
-
 ?> 

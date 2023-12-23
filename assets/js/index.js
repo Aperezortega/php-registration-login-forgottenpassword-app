@@ -5,5 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Log out successful');
     }else if(urlParams==='resetEmail=success'){
         alert('If your email is registered, you will receive an email to reset your password');
+    }else if(urlParams==='resetEmail=error'){
+        alert('Email not registered');
     }
     });
