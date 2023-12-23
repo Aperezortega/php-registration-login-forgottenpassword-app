@@ -31,7 +31,7 @@ A simple app developed using PHP, Bootstrap, and vanilla JavaScript, made with s
 
   Primary Key: id
   Unique Key: email
-
+___
   **Table: passwords_reset**
 
   | id | id_user | token                         | timestamp           |
@@ -97,7 +97,7 @@ Proyecto
 ~~~
 ### MODEL:
 
-#### db.php:
+#### **db.php:**
 A standard database connection using mysqli.  Potentially  the database access information could be written on a text file and extracted as done later with the email credentials using file(). This db.php is then required by Login.php and User.php  
 With the idea to simplify things and being this such small project, the variable $conn is used globally and not passed as a parameter into the diferent methods and functions
 ~~~
@@ -116,7 +116,7 @@ if($conn->connect_error){
 $conn->set_charset("utf8");
 ~~~
 
-#### Login.php:
+#### **Login.php:**
 A class used to login into the website. It has 2 attributes ($username,$password), and 2 methods, a public one called login() and a private  called verifyPassword, which is called also when loggin in.  
 The method login() does a SQL query and gets the associated password to $this->username  and then it is passed as a parameter for verifyPassword. verifyPassword compares the user associated password from the database and the password introduced by the person when loggin in.
 Apart of this, only 2 things to point out:
@@ -166,7 +166,7 @@ Class Login{
 ?>
 ~~~
 
-#### User.php:
+#### **User.php:**
 The design idea behind this class is that when a new aobject of the class User is created, a new user is inserted into the database, thus the constructor includes all the SQL. This class also  have 4 other functions related to the User but being **static**  they do not need an  object User to be created. If it did it would be a problem, since the way it is design, creating a new User would insert a new user in the database.
 these functions are:
 * isEmailFree($email)
@@ -251,7 +251,7 @@ Once we get to login.php we will be able to perform one of these operations:
 
 * USER REGISTRATION
 * USER LOGIN
-* RESET PASSWORD
+* PASSWORD RESET
 
 #### USER REGISTRATION:
 The registration process is managed using the following files:
@@ -306,9 +306,82 @@ The registration process is managed using the following files:
 * login.js
 * Login.php
 
- Same as before the process starts with the login view which we have a form that it is submitted to the controller. Once again the view is supported by a javascript file used to display informative alerts that are triggered by url parameters sent by the controller. The login is executed using a Class Login (which we have seen already). 
+ Same as before the process starts with the login view which we have a form that it is submitted to the controller. Once again the view is supported by a javascript file used to display informative alerts that are triggered by url parameters sent by the controller. The login is executed using a Class Login (which we have seen already) and if successful it will start username as a session variable which will be displayed later on on index.php. If login failed it will redirect us to the login screen which will have an alert stating that login failed
 
+The controller code as follow:
+~~~
+<?php
+require_once '../model/login.php';
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $login = new Login($username, $password);
+    
+    if($login->login()){
+        session_start();
+        $_SESSION['username'] = $username;
+        header('Location: ../index.php?login=success');
+    }else{
+        header('Location: ../view/loginView.php?login=failed');
+    }
+}
+?> 
+~~~
 
+#### PASSWORD RESET 
+The first thing to do here is to download [PHPMailer](https://github.com/PHPMailer/PHPMailer) library.
 
+After this, lets set the email service. In this case, the email service has only 1 functionality which is to send a password reset link consisting of an url with  a token parameter, for this reason the code for the setting up and sending the email is all in one single file.
+
+**the service is design as a function sendResetEmail($email, $token) being $email the email of the user which is to receive password reset link, Not the email sending the reset link** 
+
+Code for resetEmailService.php
+~~~
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
+function sendResetEmail($email, $token){
+    $credentialsFile = '../credentials.txt';
+    $credentialsData = file($credentialsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    
+
+    if(count($credentialsData) == 2){
+        $emailCredential = $credentialsData[0];
+        $emailPasswordCredential = $credentialsData[1];
+        $mail = new PHPMailer(true);
+        try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = $emailCredential;
+        $mail-> Password = $emailPasswordCredential;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $subject = 'Reset password';
+        $message = 'Click on the link to reset your password: http://localhost/view/createNewPassword.php?token='.$token;
+        
+        $mail->setFrom($emailCredential, 'PHP Login System');
+        $mail->addAddress($email);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+
+        $mail->send();
+        }catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+        
+
+    }else{
+        echo 'credentials not found';
+    }
+
+}
+?>
+~~~
 
  
