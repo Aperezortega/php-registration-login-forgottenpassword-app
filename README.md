@@ -167,13 +167,14 @@ Class Login{
 ~~~
 
 User.php:
-The design idea behind this class is that when a new aobject of the class User is created, a new user is inserted into the database, thus the constructor includes all the SQL. This class also  have 4 other functions related to the User but being static  they do not need an  object User to be created. If it did it would be a problem, since the way it is design, creating a new User would insert a new user in the database.
+The design idea behind this class is that when a new aobject of the class User is created, a new user is inserted into the database, thus the constructor includes all the SQL. This class also  have 4 other functions related to the User but being **static**  they do not need an  object User to be created. If it did it would be a problem, since the way it is design, creating a new User would insert a new user in the database.
 these functions are:
 * isEmailFree($email)
 * insertResetTokenIntoDb($email,$token)
 * isTokenValid($token)
 * updatePassword($id_user,$password)
-  Whole Class code here:
+
+Whole Class code here:
 ~~~
 <?php
 require_once '../model/db.php';
