@@ -21,8 +21,7 @@ A simple app developed using PHP, Bootstrap, and vanilla JavaScript, made with s
 - Bootstrap 5.3.
 - MySQL Database, created using HeidiSQL with the following structure:
 
-  **Table: users**
-
+ **Table: users**
   | id | username | email               | password             |
   | -- | -------- | ------------------- | -------------------- |
   | 1  | user1    | user1@example.com   | hashed_password_1    |
@@ -33,7 +32,6 @@ A simple app developed using PHP, Bootstrap, and vanilla JavaScript, made with s
   Unique Key: email
 ___
   **Table: passwords_reset**
-
   | id | id_user | token                         | timestamp           |
   | -- | ------- | ----------------------------- | -------------------- |
   | 1  | 1       | 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o | 2023-01-01 12:00:00 |
@@ -332,11 +330,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 The first thing to do here is to download [PHPMailer](https://github.com/PHPMailer/PHPMailer) library.
 
 After this, lets set the email service. In this case, the email service has only 1 functionality which is to send a password reset link consisting of an url with  a token parameter, for this reason the code for the setting up and sending the email is all in one single file.
-
-**the service is design as a function sendResetEmail($email, $token) being $email the email of the user which is to receive password reset link, Not the email sending the reset link** 
-
+__
+#### The service consists of a function sendResetEmail($email, $token) being $email THE EMAIL OF THE REGISTERED USER WANTING TO CHANGE HIS/HER PASSWORD Not the 
+__
 Code for resetEmailService.php
-~~~
+~~~ 
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
