@@ -97,7 +97,7 @@ Proyecto
 ~~~
 ### MODEL:
 
-##### db.php:
+#### db.php:
 A standard database connection using mysqli.  Potentially  the database access information could be written on a text file and extracted as done later with the email credentials using file(). This db.php is then required by Login.php and User.php  
 With the idea to simplify things and being this such small project, the variable $conn is used globally and not passed as a parameter into the diferent methods and functions
 ~~~
@@ -116,7 +116,7 @@ if($conn->connect_error){
 $conn->set_charset("utf8");
 ~~~
 
-##### Login.php:
+#### Login.php:
 A class used to login into the website. It has 2 attributes ($username,$password), and 2 methods, a public one called login() and a private  called verifyPassword, which is called also when loggin in.  
 The method login() does a SQL query and gets the associated password to $this->username  and then it is passed as a parameter for verifyPassword. verifyPassword compares the user associated password from the database and the password introduced by the person when loggin in.
 Apart of this, only 2 things to point out:
@@ -166,7 +166,7 @@ Class Login{
 ?>
 ~~~
 
-##### User.php:
+#### User.php:
 The design idea behind this class is that when a new aobject of the class User is created, a new user is inserted into the database, thus the constructor includes all the SQL. This class also  have 4 other functions related to the User but being **static**  they do not need an  object User to be created. If it did it would be a problem, since the way it is design, creating a new User would insert a new user in the database.
 these functions are:
 * isEmailFree($email)
