@@ -7,5 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('If your email is registered, you will receive an email to reset your password');
     }else if(urlParams==='resetEmail=error'){
         alert('Email not registered');
+    }else if(urlParams==='register=success'){
+        alert('User registered successfully');
     }
     });
