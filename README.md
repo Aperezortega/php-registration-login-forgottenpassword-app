@@ -418,10 +418,12 @@ ___
 **CREATING A NEW PASSWORD**
 For the Last step, we should have received an email with the following message: 'Click on the link to reset your password: http://localhost/view/createNewPassword.php?token='.$token;
 The file createNewPassword.php  consists o a php script which validates the token, if the token is not valid it redirects us to index.php.
+***The function  isTokenValid($token) also creates  $_SESSION['id_user'] = $id_user;***
+this will be used in the controller
 
 ~~~
 <?php
-session_start();
+session_start();// see above
 require_once '../model/User.php';
 $token = $_GET['token']; //this gets the parameter 'token' from URL
 
@@ -442,7 +444,7 @@ Code here:
 require_once '../model/User.php';
 session_start();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $id_user = $_SESSION['id_user'];
+    $id_user = $_SESSION['id_user']; 
     $password = $_POST['password'];
     User::updatePassword($id_user, $password);
     header('Location: ../view/loginView.php?passwordChanged=1');
@@ -451,3 +453,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 ?>
 ~~~
+___
+
