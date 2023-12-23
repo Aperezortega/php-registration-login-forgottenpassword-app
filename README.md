@@ -95,17 +95,96 @@ Proyecto
 `-- index.php
 
 ~~~
+### MODEL:
+
+db.php:
+A standard database connection using mysqli.  Potentially  the database access information could be written on a text file and extracted as done later with the email credentials using file(). This db.php is then required by Login.php and User.php  
+With the idea to simplify things and being this such small project, the variable $conn is used globally and not passed as a parameter into the diferent methods and functions
+~~~
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "php_login";
+$conn;
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if($conn->connect_error){
+    die("Connection failed: ".$conn->connect_error);
+}
+$conn->set_charset("utf8");
+~~~
+
+Login.php:
+A class used to login into the website. It has 2 attributes ($username,$password), and 2 methods, a public one called login() and a private  called verifyPassword, which is called also when loggin in. 
+
+
 
 ### FUNCTIONALITY:
 
 Upon landing in index.php we find a  very simple view with a block of code that points you to the login/register view or if you are logged in already  displays your username and a link to logout.
 Once we get to login.php we will be able to perform one of these operations:
 
-* Register user
-* Login user
-* Reset password
+* USER REGISTRATION
+* USER LOGIN
+* RESET PASSWORD
 
 #### USER REGISTRATION:
+The registration process is managed using the following files:
+* register.php
+* register.js
+* registerController
+
+ The process starts in register.php with a form in which we are asked to introduce username, email, password and password confirmation. When  the button submit is pressed, before sending the data to the controller, javascript will validate the fields password and confirmPassword and if they are the same, then the form will be sended to the controller. 
+The javascript code responsible for this:
+~~~
+form.addEventListener('submit', function(event) {
+        event.preventDefault(); // this stops the POST submit
+        if(password.value===''||confirmPassword.value===''){
+            alert('Password cannot be empty');
+    }else if(password.value!==confirmPassword.value){
+            alert('Password does not match');
+    }else{
+        form.submit(); // once the fields are validated then the form is sent to the controller
+    }
+    });
+~~~
+After this the controller receives the data, checks if the username is free and if so, insert a new username into the database by creating a new objectj of the class User (we have seen User.php in the previous point. Finally if registration is successful the controller redirects you index.php or to register.php if the register has failed. 
+In case of failure the redirection will include URL parametrers register=failed & error=emailtaken. This parameters will trigger an alert with the message 'Registration Failed. Email already registered'
+
+ The controller code as follows:
+~~~
+<?php
+require_once '../model/User.php';
+session_start();
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if(User::isEmailFree($email)){
+        $user = new User($username,$email,$password);
+        header('Location: ../index.php?register=success');
+        exit();
+    }else{
+        header('Location: ../view/register.php?register=failed&error=emailTaken');
+        exit();
+    }   
+}
+?>
+~~~
+With this the registration process has finished 
+___
+#### USER LOG IN:
+The registration process is managed using the following files:
+* loginView.php
+* loginController.php
+* login.js
+* Login.php
+
+ Same as before the process starts with the login view which we have a form that it is submitted to the controller. Once again the view is supported by a javascript file used to display informative alerts that are triggered by url parameters sent by the controller. The login is executed using a Class Login (which we have seen already). 
+
 
 
 
